@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.js
+*.d.ts
+*.map
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

@@ -1,0 +1,41 @@
+{
+  "name": "fastify-rest-api",
+  "version": "1.0.0",
+  "description": "A modern REST API built with Fastify, TypeScript, ESLint, and Prettier.",
+  "main": "src/server.ts",
+  "scripts": {
+    "dev": "tsc --project tsconfig.json --watch && nodemon --watch 'dist/' --exec 'node dist/server.js'",
+    "build": "tsc --project tsconfig.json",
+    "start": "tsc --project tsconfig.json && node dist/server.js",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@fastify/auth": "^5.0.3",
+    "@fastify/autoload": "^6.3.1",
+    "@fastify/jwt": "^10.0.0",
+    "@fastify/swagger": "^9.5.2",
+    "@fastify/swagger-ui": "^5.2.3",
+    "@fastify/type-provider-typebox": "^6.0.0",
+    "@sinclair/typebox": "^0.34.41",
+    "fastify": "^5.6.1",
+    "fastify-plugin": "^5.1.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^24.8.1",
+    "@vitest/ui": "^3.2.4",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.10.2",
+    "eslint-plugin-prettier": "^4.2.5",
+    "fastify-tsconfig": "^3.0.0",
+    "nodemon": "^3.1.10",
+    "prettier": "^2.8.8",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,15 @@
+node_modules
+dist
+build
+*.log
+*.tsbuildinfo
+*.jsx
+*.tsx
+*.d.ts
+coverage
+.vscode
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
