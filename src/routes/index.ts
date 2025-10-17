@@ -1,28 +1,32 @@
 import { Type } from '@sinclair/typebox';
 import type { FastifyInstance } from 'fastify';
-import { ItemSchema } from '../schemas';
 import offers from './offers';
 
-export default async function routes(fastify: FastifyInstance) {
+export async function authenticateRoutes(fastify: FastifyInstance) {
 
   await fastify.register(offers);
 
+}
+
+export async function publicRoutes(fastify: FastifyInstance) {
+
+  // Auth
+
   fastify.get(
-    '/items',
+    '/health',
     {
       schema: {
         response: {
-          200: Type.Array(ItemSchema),
-          404: Type.Object({ message: Type.String() }),
+          200: Type.Object({
+            status: Type.String(),
+          }),
         },
       },
     },
-    async (req, reply) => {
-      return reply.status(200).send("pro ");
+    async (request, reply) => {
+      return { status: 'ok' };
     }
   );
-  // fastify.get('/items/:id', getItemById);
-  // fastify.post('/items', createItem);
-  // fastify.put('/items/:id', updateItem);
-  // fastify.delete('/items/:id', deleteItem);
 }
+
+
