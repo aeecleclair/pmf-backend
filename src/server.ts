@@ -5,6 +5,12 @@ import { buildApp } from './app';
 buildApp({
   logger: {
     level: 'info',
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        colorize: true,
+      },
+    },
   },
 })
   .then((server) => {

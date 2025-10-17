@@ -3,6 +3,7 @@ import routes from './routes/index';
 import fastifyAutoload from '@fastify/autoload';
 import path from 'path';
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
+import prisma from './utils/prisma';
 
 declare module 'fastify' {
   interface FastifyInstance {
@@ -35,6 +36,8 @@ export async function buildApp(options = {}) {
     dir: path.join(__dirname, 'plugins'),
     options: {},
   });
+
+  await prisma.$connect();
 
   await app.register(routes);
 

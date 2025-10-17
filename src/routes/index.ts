@@ -1,8 +1,11 @@
 import { Type } from '@sinclair/typebox';
 import type { FastifyInstance } from 'fastify';
 import { ItemSchema } from '../schemas';
+import offers from './offers';
 
 export default async function routes(fastify: FastifyInstance) {
+
+  await fastify.register(offers);
 
   fastify.get(
     '/items',

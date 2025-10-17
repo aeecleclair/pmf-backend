@@ -1,0 +1,21 @@
+services:
+  dev-database:
+    image: postgres:17.6
+    container_name: pmf-dev-database
+    environment:
+      POSTGRES_USER: pmf_user
+      POSTGRES_PASSWORD: pmf_password
+      POSTGRES_DB: pmf_dev_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+    networks:
+      - pmf-dev-network
+
+volumes:
+  dev-db-data:
+
+networks:
+  pmf-dev-network:
+    driver: bridge
