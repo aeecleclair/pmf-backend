@@ -1,7 +1,7 @@
 {
-  "name": "fastify-rest-api",
+  "name": "pmf-backend-api",
   "version": "1.0.0",
-  "description": "A modern REST API built with Fastify, TypeScript, ESLint, and Prettier.",
+  "description": "A modern REST API built with Fastify.",
   "main": "src/server.ts",
   "scripts": {
     "dev": "tsc --project tsconfig.json --watch && nodemon --watch 'dist/' --exec 'node dist/server.js'",
