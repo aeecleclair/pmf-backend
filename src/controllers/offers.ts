@@ -51,6 +51,10 @@ export async function createOffer(data: CreateOfferType) {
       location: data.location,
       link: data.link,
     },
+    include: {
+      tags: true,
+      category: true,
+    },
   });
 
   return {
@@ -60,4 +64,12 @@ export async function createOffer(data: CreateOfferType) {
     createdAt: offer.createdAt.toISOString(),
     updatedAt: offer.updatedAt.toISOString(),
   };
+}
+
+export async function getTags() {
+  return prisma.tag.findMany();
+}
+
+export async function getCategories() {
+  return prisma.category.findMany();
 }

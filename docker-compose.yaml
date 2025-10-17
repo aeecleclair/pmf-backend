@@ -1,0 +1,29 @@
+services:
+  app:
+    build: .
+    ports:
+      - "80:80"
+    env_file:
+      - .env
+    depends_on:
+      - database
+  database:
+    image: postgres:17.6
+    container_name: pmf-database
+    environment:
+      POSTGRES_USER: pmf_user
+      POSTGRES_PASSWORD: pmf_password
+      POSTGRES_DB: pmf_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - pmf-network
+
+volumes:
+  db-data:
+
+networks:
+  pmf-network:
+    driver: bridge

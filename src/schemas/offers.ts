@@ -1,24 +1,4 @@
-// model InternshipOffer {
-//   id         String   @id @default(cuid())
-//   title      String
-//   content    String
-//   authorId   String
-//   author     User   @relation(fields: [authorId], references: [id])
-//   visibility Boolean  @default(true)
-//   category   Category @relation(fields: [categoryId], references: [id])
-//   categoryId String
-//   tags       Tag[]
-//   startDate  DateTime
-//   endDate    DateTime
-//   duration   Int    // duration in days
-//   location   String
-//   link       String
-//   createdAt  DateTime @default(now())
-//   updatedAt  DateTime @updatedAt
-// }
-
-// We want to define a ReturnOfferSchema, CreateOfferSchema, and UpdateOfferSchema using TypeBox
-import { Static, Type } from '@sinclair/typebox';
+import { Static, Type } from '@fastify/type-provider-typebox';
 
 export const OfferBaseSchema = Type.Object({
   title: Type.String(),
@@ -26,7 +6,6 @@ export const OfferBaseSchema = Type.Object({
   authorId: Type.String(),
   visibility: Type.Boolean(),
   categoryId: Type.String(),
-  tags: Type.Array(Type.String()),
   // use RFC3339 date-time strings for compatibility with Fastify/AJV
   startDate: Type.String({ format: 'date-time' }),
   endDate: Type.String({ format: 'date-time' }),
@@ -36,13 +15,28 @@ export const OfferBaseSchema = Type.Object({
   link: Type.String(),
 });
 
-export const CreateOfferSchema = OfferBaseSchema;
+export const CreateOfferSchema = Type.Intersect([
+  OfferBaseSchema,
+  Type.Object({
+    tags: Type.Array(Type.String()), // Array of tag IDs
+  }),
+]);
 export type CreateOfferType = Static<typeof CreateOfferSchema>;
 
 export const ReturnOfferSchema = Type.Intersect([
   OfferBaseSchema,
   Type.Object({
     id: Type.String(),
+    tags: Type.Array(
+      Type.Object({
+        id: Type.String(),
+        name: Type.String(),
+      })
+    ),
+    category: Type.Object({
+      id: Type.String(),
+      name: Type.String(),
+    }),
     createdAt: Type.String({ format: 'date-time' }),
     updatedAt: Type.String({ format: 'date-time' }),
   }),
