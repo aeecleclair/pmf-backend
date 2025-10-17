@@ -3,12 +3,14 @@ import { LoginBodySchema, RegisterBodySchema } from '../schemas/auth';
 import { FastifyTypeBox } from '../types';
 import { Type } from '@fastify/type-provider-typebox';
 import { comparePassword, hashPassword } from '../utils/functions';
+import { UserRole } from '@prisma/client';
 
 export default async function routes(fastify: FastifyTypeBox) {
   fastify.post(
     '/auth/login',
     {
       schema: {
+        tags: ['Auth'],
         body: LoginBodySchema,
         response: {
           200: Type.Object({ token: Type.String() }),
@@ -30,7 +32,7 @@ export default async function routes(fastify: FastifyTypeBox) {
         return reply.status(401).send({ message: 'Invalid credentials' });
       }
 
-      const token = fastify.jwt.sign({ id: user.id }, { expiresIn: '1h' });
+      const token = fastify.jwt.sign({ id: user.id }, { expiresIn: process.env.JWT_EXPIRES_IN || '1h' }); // TODO: Parse correctly .env
       reply.status(200).send({ token });
     }
   );
@@ -39,6 +41,7 @@ export default async function routes(fastify: FastifyTypeBox) {
     '/auth/register',
     {
       schema: {
+        tags: ['Auth'],
         body: RegisterBodySchema,
         response: {
           201: Type.Object({ message: Type.String() }),
@@ -62,7 +65,7 @@ export default async function routes(fastify: FastifyTypeBox) {
         password: hashedPassword,
         firstname,
         lastname,
-        role: 'ALUMNI',
+        role: UserRole.ALUMNI,
       });
 
       reply.status(201).send({ message: 'User registered successfully' });

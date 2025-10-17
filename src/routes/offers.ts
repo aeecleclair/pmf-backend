@@ -13,6 +13,7 @@ export default async function routes(fastify: FastifyTypeBox) {
     '/offers',
     {
       schema: {
+        tags: ['Offers'],
         response: {
           200: Type.Array(ReturnOfferSchema),
         },
@@ -28,6 +29,7 @@ export default async function routes(fastify: FastifyTypeBox) {
     '/offers',
     {
       schema: {
+        tags: ['Offers'],
         body: CreateOfferSchema,
         response: {
           201: ReturnOfferSchema,
