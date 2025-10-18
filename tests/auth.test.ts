@@ -81,7 +81,7 @@ describe('Testing auth', async () => {
       method: 'POST',
       url: '/auth/register',
       payload: {
-        email: '1H5Ml@example.com',
+        email: randomEmail,
         password: 'strongpassword',
         firstname: 'John',
         lastname: 'Doe',
