@@ -1,13 +1,16 @@
 import type { PrismaClient } from '@prisma/client';
 import { CreateOfferType } from './../schemas/offers';
 
-export async function getFilteredOffers(prisma: PrismaClient, options: {
-  before?: Date;
-  after?: Date;
-  tags?: string[];
-  category?: string;
-  take?: number;
-}) {
+export async function getFilteredOffers(
+  prisma: PrismaClient,
+  options: {
+    before?: Date;
+    after?: Date;
+    tags?: string[];
+    category?: string;
+    take?: number;
+  },
+) {
   const offers = await prisma.internshipOffer.findMany({
     orderBy: { createdAt: 'desc' },
     where: {
@@ -66,7 +69,7 @@ export async function createOffer(prisma: PrismaClient, data: CreateOfferType) {
   };
 }
 
-export async function getTags(prisma: PrismaClient,) {
+export async function getTags(prisma: PrismaClient) {
   return prisma.tag.findMany();
 }
 

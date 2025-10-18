@@ -1,7 +1,6 @@
-import { Type } from "@fastify/type-provider-typebox";
-import { UserRole } from "@prisma/client";
-import { Nullable } from "../types";
-
+import { Type } from '@fastify/type-provider-typebox';
+import { UserRole } from '@prisma/client';
+import { Nullable } from '../types';
 
 export const UserBaseSchema = Type.Object({
   firstname: Nullable(Type.String()),

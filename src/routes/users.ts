@@ -57,7 +57,7 @@ export default async function routes(fastify: FastifyTypeBox) {
       },
     },
     async (req, reply) => {
-      const user = await findUserById(fastify.prisma, "req.user.id");
+      const user = await findUserById(fastify.prisma, 'req.user.id');
       if (!user) {
         return reply.status(404).send({ message: 'User not found' });
       }

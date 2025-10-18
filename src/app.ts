@@ -15,12 +15,12 @@ export async function buildApp(options = {}) {
     openapi: {
       components: {
         securitySchemes: {
-          bearerAuth : {
+          bearerAuth: {
             type: 'http',
             scheme: 'bearer',
-          }
-        }
-      }
+          },
+        },
+      },
     },
   });
   await app.register(import('@fastify/swagger-ui'), {

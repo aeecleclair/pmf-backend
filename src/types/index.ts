@@ -21,4 +21,5 @@ export type SelectReturnSchema<ReturnSchema extends TSchema> = {
   [K in keyof Static<ReturnSchema>]: true;
 };
 
-export const Nullable = <T extends TSchema>(schema: T) => Type.Optional(Type.Union([schema, Type.Null()]));
+export const Nullable = <T extends TSchema>(schema: T) =>
+  Type.Optional(Type.Union([schema, Type.Null()]));

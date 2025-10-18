@@ -64,7 +64,9 @@ export const comparePassword = async (
  * @param schema - The TypeBox schema to extract the select fields from
  * @returns An object representing the select fields
  */
-export const getSelectFromSchema = <Schema extends TSchema>(schema: Schema): SelectReturnSchema<Schema> => {
+export const getSelectFromSchema = <Schema extends TSchema>(
+  schema: Schema,
+): SelectReturnSchema<Schema> => {
   return Object.keys(schema).reduce((acc, key) => {
     // @ts-ignore
     acc[key] = true;

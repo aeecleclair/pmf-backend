@@ -2,13 +2,16 @@ import type { Prisma, PrismaClient } from '@prisma/client';
 import { getSelectFromSchema } from '../utils/functions';
 import { ReturnUserSchema } from '../schemas/users';
 
-export async function getFilteredUsers(prisma: PrismaClient, filters: {
-  before?: Date;
-  after?: Date;
-  firstname?: string;
-  lastname?: string;
-  email?: string;
-}) {
+export async function getFilteredUsers(
+  prisma: PrismaClient,
+  filters: {
+    before?: Date;
+    after?: Date;
+    firstname?: string;
+    lastname?: string;
+    email?: string;
+  },
+) {
   const users = await prisma.user.findMany({
     where: {
       AND: [
@@ -21,7 +24,11 @@ export async function getFilteredUsers(prisma: PrismaClient, filters: {
     },
     select: getSelectFromSchema<typeof ReturnUserSchema>(ReturnUserSchema),
   });
-  return users.map((user) => ({ ...user, createdAt: user.createdAt.toISOString(), updatedAt: user.updatedAt.toISOString() }));
+  return users.map((user) => ({
+    ...user,
+    createdAt: user.createdAt.toISOString(),
+    updatedAt: user.updatedAt.toISOString(),
+  }));
 }
 
 export async function findUserByEmail(prisma: PrismaClient, email: string) {
@@ -35,7 +42,11 @@ export async function findUserById(prisma: PrismaClient, id: string) {
     where: { id: id },
   });
   if (user) {
-    return { ...user, createdAt: user.createdAt.toISOString(), updatedAt: user.updatedAt.toISOString() };
+    return {
+      ...user,
+      createdAt: user.createdAt.toISOString(),
+      updatedAt: user.updatedAt.toISOString(),
+    };
   }
   return null;
 }
@@ -45,7 +56,11 @@ export async function updateUser(prisma: PrismaClient, id: string, data: Prisma.
     where: { id },
     data,
   });
-  return { ...user, createdAt: user.createdAt.toISOString(), updatedAt: user.updatedAt.toISOString() };
+  return {
+    ...user,
+    createdAt: user.createdAt.toISOString(),
+    updatedAt: user.updatedAt.toISOString(),
+  };
 }
 
 export async function deleteUser(prisma: PrismaClient, id: string) {
