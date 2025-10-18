@@ -1,4 +1,4 @@
-import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
+import { Static, TSchema, Type, TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import {
   FastifyInstance,
   RawServerDefault,
@@ -15,3 +15,10 @@ export type FastifyTypeBox = FastifyInstance<
   FastifyBaseLogger,
   TypeBoxTypeProvider
 >;
+
+// Convert field from a Return Schema to boolean select object
+export type SelectReturnSchema<ReturnSchema extends TSchema> = {
+  [K in keyof Static<ReturnSchema>]: true;
+};
+
+export const Nullable = <T extends TSchema>(schema: T) => Type.Optional(Type.Union([schema, Type.Null()]));

@@ -1,5 +1,7 @@
+import { TSchema } from '@fastify/type-provider-typebox';
 import { getCategories, getTags } from '../controllers/offers';
 import bcrypt from 'bcrypt';
+import { SelectReturnSchema } from '../types';
 
 /**
  * Validate if a list of tag IDs exist in the database
@@ -52,4 +54,17 @@ export const comparePassword = async (
   } catch (error) {
     throw new Error('Failed to compare passwords');
   }
+};
+
+/**
+ * Get the select object from a TypeBox schema
+ * @param schema - The TypeBox schema to extract the select fields from
+ * @returns An object representing the select fields
+ */
+export const getSelectFromSchema = <Schema extends TSchema>(schema: Schema): SelectReturnSchema<Schema> => {
+  return Object.keys(schema).reduce((acc, key) => {
+    // @ts-ignore
+    acc[key] = true;
+    return acc;
+  }, {} as SelectReturnSchema<Schema>);
 };

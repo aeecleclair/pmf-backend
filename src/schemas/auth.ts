@@ -7,8 +7,8 @@ export const LoginBodySchema = Type.Object({
 export type LoginBodyType = Static<typeof LoginBodySchema>;
 
 export const RegisterBodySchema = Type.Object({
-  email: Type.String(),
-  password: Type.String(),
+  email: Type.String({ format: 'email' }),
+  password: Type.String({ minLength: 8 }),
   firstname: Type.String(),
   lastname: Type.String(),
 });

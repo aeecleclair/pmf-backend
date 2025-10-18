@@ -12,7 +12,18 @@ export async function buildApp(options = {}) {
    * Register plugins
    */
   // Register Swagger outside of autoload See https://github.com/fastify/fastify-swagger?tab=readme-ov-file#with-fastifyautoload
-  await app.register(import('@fastify/swagger'));
+  await app.register(import('@fastify/swagger'), {
+    openapi: {
+      components: {
+        securitySchemes: {
+          bearerAuth : {
+            type: 'http',
+            scheme: 'bearer',
+          }
+        }
+      }
+    },
+  });
   await app.register(import('@fastify/swagger-ui'), {
     routePrefix: '/docs',
   });
@@ -31,7 +42,7 @@ export async function buildApp(options = {}) {
   await app.register(publicRoutes);
   // Protected routes
   app.register((instance) => {
-    instance.addHook('preHandler', app.auth([app.verifyJWTandLevel]));
+    instance.addHook('onRequest', app.auth([app.verifyJWTandLevel]));
     instance.register(authenticateRoutes);
   });
 
