@@ -16,7 +16,7 @@ export default async function routes(fastify: FastifyTypeBox) {
       },
     },
     async (req, reply) => {
-      const offers = await getFilteredOffers({}); // Fetch offers from your data source
+      const offers = await getFilteredOffers(fastify.prisma, {}); // Fetch offers from your data source
       reply.status(200).send(offers);
     },
   );
@@ -37,20 +37,20 @@ export default async function routes(fastify: FastifyTypeBox) {
       const body = req.body as CreateOfferType;
 
       // Verify that these tags exist in the database
-      if (!(await validateTags(body.tags))) {
+      if (!(await validateTags(fastify.prisma, body.tags))) {
         return reply.status(400).send({
           message: 'One or more provided tags do not exist. Please use the tags ids.',
         });
       }
 
       // Verify that the category exists in the database
-      if (!(await validateCategory(body.categoryId))) {
+      if (!(await validateCategory(fastify.prisma, body.categoryId))) {
         return reply.status(400).send({
           message: `The provided category (${body.categoryId}) does not exist.`,
         });
       }
 
-      const newOffer = await createOffer(body);
+      const newOffer = await createOffer(fastify.prisma, body);
       reply.status(201).send(newOffer);
     },
   );

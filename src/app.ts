@@ -3,7 +3,6 @@ import { authenticateRoutes, publicRoutes } from './routes/index';
 import fastifyAutoload from '@fastify/autoload';
 import path from 'path';
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
-import prisma from './utils/prisma';
 
 export async function buildApp(options = {}) {
   const app = FastifyServer(options).withTypeProvider<TypeBoxTypeProvider>();
@@ -33,9 +32,6 @@ export async function buildApp(options = {}) {
     dir: path.join(__dirname, 'plugins'),
     options: {},
   });
-
-  // Connect to the database
-  await prisma.$connect();
 
   // Register routes
   // Public routes

@@ -1,3 +1,4 @@
+import type { PrismaClient } from '@prisma/client';
 import { TSchema } from '@fastify/type-provider-typebox';
 import { getCategories, getTags } from '../controllers/offers';
 import bcrypt from 'bcrypt';
@@ -5,21 +6,23 @@ import { SelectReturnSchema } from '../types';
 
 /**
  * Validate if a list of tag IDs exist in the database
+ * @param prisma - Prisma client instance
  * @param tagIds - List of tag IDs to validate
  * @returns {Promise<boolean>} - True if all tag IDs exist, false otherwise
  */
-export const validateTags = async (tagIds: string[]) => {
-  const existingTags = await getTags();
+export const validateTags = async (prisma: PrismaClient, tagIds: string[]) => {
+  const existingTags = await getTags(prisma);
   return tagIds.every((tagId) => existingTags.some((tag) => tag.id === tagId));
 };
 
 /**
  * Validate if a category exists
+ * @param prisma - Prisma client instance
  * @param categoryId - ID of the category to validate
  * @returns {Promise<boolean>} - True if the category exists, false otherwise
  */
-export const validateCategory = async (categoryId: string) => {
-  const existingCategories = await getCategories();
+export const validateCategory = async (prisma: PrismaClient, categoryId: string) => {
+  const existingCategories = await getCategories(prisma);
   return existingCategories.some((category) => category.id === categoryId);
 };
 

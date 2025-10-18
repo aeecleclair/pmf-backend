@@ -17,7 +17,7 @@ export default async function routes(fastify: FastifyTypeBox) {
       },
     },
     async (req, reply) => {
-      const users = await getFilteredUsers({});
+      const users = await getFilteredUsers(fastify.prisma, {});
       reply.status(200).send(users);
     },
   );
@@ -37,7 +37,7 @@ export default async function routes(fastify: FastifyTypeBox) {
       },
     },
     async (req, reply) => {
-      const user = await findUserById(req.params.id);
+      const user = await findUserById(fastify.prisma, req.params.id);
       if (!user) {
         return reply.status(404).send({ message: 'User not found' });
       }
@@ -57,7 +57,7 @@ export default async function routes(fastify: FastifyTypeBox) {
       },
     },
     async (req, reply) => {
-      const user = await findUserById("req.user.id");
+      const user = await findUserById(fastify.prisma, "req.user.id");
       if (!user) {
         return reply.status(404).send({ message: 'User not found' });
       }
@@ -81,11 +81,11 @@ export default async function routes(fastify: FastifyTypeBox) {
       },
     },
     async (req, reply) => {
-      const user = await findUserById(req.params.id);
+      const user = await findUserById(fastify.prisma, req.params.id);
       if (!user) {
         return reply.status(404).send({ message: 'User not found' });
       }
-      const updatedUser = await updateUser(req.params.id, req.body);
+      const updatedUser = await updateUser(fastify.prisma, req.params.id, req.body);
       reply.status(200).send(updatedUser);
     },
   );
@@ -105,11 +105,11 @@ export default async function routes(fastify: FastifyTypeBox) {
       },
     },
     async (req, reply) => {
-      const user = await findUserById(req.params.id);
+      const user = await findUserById(fastify.prisma, req.params.id);
       if (!user) {
         return reply.status(404).send({ message: 'User not found' });
       }
-      await deleteUser(req.params.id);
+      await deleteUser(fastify.prisma, req.params.id);
       reply.status(204).send();
     },
   );

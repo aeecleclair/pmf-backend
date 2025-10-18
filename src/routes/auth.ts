@@ -22,7 +22,7 @@ export default async function routes(fastify: FastifyTypeBox) {
       const { email, password } = req.body;
 
       // Implement your login logic here
-      const user = await findUserByEmail(email);
+      const user = await findUserByEmail(fastify.prisma, email);
 
       if (!user || !user.password || !(await comparePassword(password, user.password))) {
         return reply.status(401).send({ message: 'Invalid credentials' });
@@ -50,7 +50,7 @@ export default async function routes(fastify: FastifyTypeBox) {
     },
     async (req, reply) => {
       const { email, password, firstname, lastname } = req.body;
-      const existingUser = await findUserByEmail(email);
+      const existingUser = await findUserByEmail(fastify.prisma, email);
 
       if (existingUser) {
         return reply.status(400).send({ message: 'User already exists' });
@@ -59,7 +59,7 @@ export default async function routes(fastify: FastifyTypeBox) {
       // Hash the password before storing
       const hashedPassword = await hashPassword(password);
 
-      await createUser({
+      await createUser(fastify.prisma, {
         email,
         password: hashedPassword,
         firstname,
