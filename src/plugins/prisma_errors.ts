@@ -40,8 +40,7 @@ function formatPrismaError(error: any): FormattedError {
   if (error instanceof PrismaClientKnownRequestError) {
     const statusCode = getStatusCodeFromPrismaError(error.code);
     const message =
-      ERROR_MESSAGES[error.code as keyof typeof ERROR_MESSAGES] ||
-      ERROR_MESSAGES.DEFAULT;
+      ERROR_MESSAGES[error.code as keyof typeof ERROR_MESSAGES] || ERROR_MESSAGES.DEFAULT;
 
     return {
       statusCode,
@@ -87,42 +86,40 @@ function getStatusCodeFromPrismaError(code: string): number {
 
 // Fastify plugin to handle Prisma errors
 export default fastifyPlugin(function prismaErrorHandler(fastify: FastifyInstance) {
-  fastify.setErrorHandler(
-    async (error: any, request: FastifyRequest, reply: FastifyReply) => {
-      // Log complete error for debugging (server-side only)
-      fastify.log.error(
-        {
-          error: error,
-          request: {
-            method: request.method,
-            url: request.url,
-            headers: request.headers,
-            body: request.body,
-          },
+  fastify.setErrorHandler(async (error: any, request: FastifyRequest, reply: FastifyReply) => {
+    // Log complete error for debugging (server-side only)
+    fastify.log.error(
+      {
+        error: error,
+        request: {
+          method: request.method,
+          url: request.url,
+          headers: request.headers,
+          body: request.body,
         },
-        'Prisma error intercepted'
-      );
+      },
+      'Prisma error intercepted',
+    );
 
-      // Check if it's a Prisma error
-      if (
-        error instanceof PrismaClientKnownRequestError ||
-        error instanceof PrismaClientValidationError ||
-        error instanceof PrismaClientUnknownRequestError
-      ) {
-        const formattedError = formatPrismaError(error);
+    // Check if it's a Prisma error
+    if (
+      error instanceof PrismaClientKnownRequestError ||
+      error instanceof PrismaClientValidationError ||
+      error instanceof PrismaClientUnknownRequestError
+    ) {
+      const formattedError = formatPrismaError(error);
 
-        return reply.status(formattedError.statusCode).send({
-          error: true,
-          message: formattedError.message,
-          code: formattedError.code,
-          timestamp: new Date().toISOString(),
-        });
-      }
-
-      // If it's not a Prisma error, pass to default error handler
-      throw error;
+      return reply.status(formattedError.statusCode).send({
+        error: true,
+        message: formattedError.message,
+        code: formattedError.code,
+        timestamp: new Date().toISOString(),
+      });
     }
-  );
+
+    // If it's not a Prisma error, pass to default error handler
+    throw error;
+  });
 });
 
 // Export utilities for direct use

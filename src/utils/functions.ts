@@ -27,10 +27,7 @@ export const validateCategory = async (categoryId: string) => {
  * @param saltRounds - Number of salt rounds (default: 12)
  * @returns {Promise<string>} - Hashed password
  */
-export const hashPassword = async (
-  password: string,
-  saltRounds: number = 12
-): Promise<string> => {
+export const hashPassword = async (password: string, saltRounds: number = 12): Promise<string> => {
   try {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     return hashedPassword;
@@ -47,7 +44,7 @@ export const hashPassword = async (
  */
 export const comparePassword = async (
   password: string,
-  hashedPassword: string
+  hashedPassword: string,
 ): Promise<boolean> => {
   try {
     const isMatch = await bcrypt.compare(password, hashedPassword);

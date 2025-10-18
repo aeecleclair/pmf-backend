@@ -1,8 +1,4 @@
-import {
-  CreateOfferSchema,
-  CreateOfferType,
-  ReturnOfferSchema,
-} from '../schemas/offers';
+import { CreateOfferSchema, CreateOfferType, ReturnOfferSchema } from '../schemas/offers';
 import { getFilteredOffers, createOffer } from '../controllers/offers';
 import { FastifyTypeBox } from '../types';
 import { Type } from '@fastify/type-provider-typebox';
@@ -22,7 +18,7 @@ export default async function routes(fastify: FastifyTypeBox) {
     async (req, reply) => {
       const offers = await getFilteredOffers({}); // Fetch offers from your data source
       reply.status(200).send(offers);
-    }
+    },
   );
 
   fastify.post(
@@ -43,8 +39,7 @@ export default async function routes(fastify: FastifyTypeBox) {
       // Verify that these tags exist in the database
       if (!(await validateTags(body.tags))) {
         return reply.status(400).send({
-          message:
-            'One or more provided tags do not exist. Please use the tags ids.',
+          message: 'One or more provided tags do not exist. Please use the tags ids.',
         });
       }
 
@@ -57,6 +52,6 @@ export default async function routes(fastify: FastifyTypeBox) {
 
       const newOffer = await createOffer(body);
       reply.status(201).send(newOffer);
-    }
+    },
   );
 }

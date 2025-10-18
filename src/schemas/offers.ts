@@ -31,7 +31,7 @@ export const ReturnOfferSchema = Type.Intersect([
       Type.Object({
         id: Type.String(),
         name: Type.String(),
-      })
+      }),
     ),
     category: Type.Object({
       id: Type.String(),

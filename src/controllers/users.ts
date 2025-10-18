@@ -1,5 +1,5 @@
-import { Prisma } from "@prisma/client";
-import prisma from "../utils/prisma";
+import { Prisma } from '@prisma/client';
+import prisma from '../utils/prisma';
 
 export async function findUserByEmail(email: string) {
   return prisma.user.findUnique({
@@ -9,6 +9,6 @@ export async function findUserByEmail(email: string) {
 
 export async function createUser(data: Prisma.UserCreateInput) {
   return prisma.user.create({
-    data
+    data,
   });
 }

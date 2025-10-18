@@ -14,7 +14,6 @@ describe('Testing auth', async () => {
       logger: false,
     });
     randomEmail = `${Math.random().toString(36).substring(2, 15)}@example.com`;
-    
   });
 
   it('should not be authorized', async () => {

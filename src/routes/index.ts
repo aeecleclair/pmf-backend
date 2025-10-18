@@ -25,6 +25,6 @@ export async function publicRoutes(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       return { status: 'ok' };
-    }
+    },
   );
 }

@@ -24,17 +24,16 @@ export default async function routes(fastify: FastifyTypeBox) {
       // Implement your login logic here
       const user = await findUserByEmail(email);
 
-      if (
-        !user ||
-        !user.password ||
-        !(await comparePassword(password, user.password))
-      ) {
+      if (!user || !user.password || !(await comparePassword(password, user.password))) {
         return reply.status(401).send({ message: 'Invalid credentials' });
       }
 
-      const token = fastify.jwt.sign({ id: user.id }, { expiresIn: process.env.JWT_EXPIRES_IN || '1h' }); // TODO: Parse correctly .env
+      const token = fastify.jwt.sign(
+        { id: user.id },
+        { expiresIn: process.env.JWT_EXPIRES_IN || '1h' },
+      ); // TODO: Parse correctly .env
       reply.status(200).send({ token });
-    }
+    },
   );
 
   fastify.post(
@@ -69,6 +68,6 @@ export default async function routes(fastify: FastifyTypeBox) {
       });
 
       reply.status(201).send({ message: 'User registered successfully' });
-    }
+    },
   );
 }

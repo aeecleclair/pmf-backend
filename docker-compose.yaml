@@ -2,7 +2,7 @@ services:
   app:
     build: .
     ports:
-      - "80:80"
+      - '80:80'
     env_file:
       - .env
     depends_on:
@@ -15,7 +15,7 @@ services:
       POSTGRES_PASSWORD: pmf_password
       POSTGRES_DB: pmf_db
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - db-data:/var/lib/postgresql/data
     networks:
